@@ -2,6 +2,7 @@ obj/*
 *.exe
 *.html
 *.dll
+.*.swp
 src/arch.ml
 src/arch2.ml
 src/case_ins.ml
