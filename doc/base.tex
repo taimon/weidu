@@ -2869,34 +2869,31 @@ global option to your \ttref{TP2} file. \\
        A typical example is \t{COPY "mymod/sword.itm"
        "override/m\#sword.itm"}.
        
-       \\ 
-       
-       \ttref{COPY} commands set the user-defined \DEFINE{SOURCE!DIRECTORY}, 
-       \DEFINE{SOURCE!FILESPEC}, \DEFINE{SOURCE!FILE}, 
+
+       \ttref{COPY} commands set the user-defined \DEFINE{SOURCE!DIRECTORY},
+       \DEFINE{SOURCE!FILESPEC}, \DEFINE{SOURCE!FILE},
        \DEFINE{SOURCE!RES}, \DEFINE{SOURCE!EXT},
-       \DEFINE{DEST!DIRECTORY}, \DEFINE{DEST!FILESPEC}, 
+       \DEFINE{DEST!DIRECTORY}, \DEFINE{DEST!FILESPEC},
        \DEFINE{DEST!FILE},\DEFINE{DEST!RES} and \DEFINE{DEST!EXT}
        \ttref{variable}s based on fromFile and toFile as follows. If
-       fromFile is \t{mymod/cre/bigboss.cre}, then 
-       \ttref{SOURCE!DIRECTORY} is \t{mymod/cre}, 
-       \ttref{SOURCE!FILESPEC} is \t{mymod/cre/bigboss.cre}, 
+       fromFile is \t{mymod/cre/bigboss.cre}, then
+       \ttref{SOURCE!DIRECTORY} is \t{mymod/cre},
+       \ttref{SOURCE!FILESPEC} is \t{mymod/cre/bigboss.cre},
        \ttref{SOURCE!FILE} is \t{bigboss.cre},
        \ttref{SOURCE!RES} is \t{bigboss} and \ttref{SOURCE!EXT} is \t{cre}.
        The \t{DEST!} variables
        are similarly based on toFile. In addition, \DEFINE{SOURCE!SIZE} is
-       set to the size (in bytes) of the source file. 
+       set to the size (in bytes) of the source file.
 
-       \\ 
 
        This is generally only useful if you have enabled globbing. Any
        user-defined \ttref{variables} in toFile are replaced with their
-       values. You may also reference these \ttref{variables} in 
+       values. You may also reference these \ttref{variables} in
        \ttref{patch}es.
 
-       \\
 
        See the \ttref{Module Distribution} section for information about
-       finding a good unique prefix for your mod-created resources. 
+       finding a good unique prefix for your mod-created resources.
        \\
   or & \DEFINE{COPY!EXISTING} \ttref{optNoBackup} fromFile toFile ...
         &
@@ -2908,11 +2905,10 @@ global option to your \ttref{TP2} file. \\
        \ttref{patch} \Slist
        \ttref{when} \Slist &
        Behaves like \ttref{COPY!EXISTING} except that fromFileRegexp may
-       contain \ttref{regexp} regular exprsesions. All matching files in
+       contain regular expressions (\ttref{regexp}s). All matching files in
        the game \ttref{BIFF}s will be copied to the directory specified by
        toDir.
 
-       \\
 
        If \ttref{GLOB} is specified, matching files in \t{override} will
        also be patched and copied. If a file appears in both the
@@ -2960,7 +2956,6 @@ COPY_EXISTING_REGEXP GLOB ~HARM.*.ITM~ ~override~
       
       After the special EVALUATE!BUFFER is executed, all other patches are executed.
 
-      \\
 
       First, this loads all of the traFiles presented. If any of their
       paths contain \t{\%s}, the \t{\%s} is replaced with the
@@ -2989,7 +2984,11 @@ COPY_EXISTING_REGEXP GLOB ~HARM.*.ITM~ ~override~
       to get reproducible results when using random functions. If you
       specify a string that is not a valid integer the system initializes
       itself (e.g., by using the current time).  \\
-  or & \DEFSYN{APPEND} filename newText \ttref{when} \Slist \Ob \t{KEEP!CRLF} \Oe  &
+  or & \DEFINE{ACTION!READLN} \ttref{variable} &
+      Waits for the user to provided an enter-terminated string and store it in
+      variable. Said string will be stored and re-used at reinstall time. See the
+      \ttref{READLN} tutorial. \\
+or & \DEFSYN{APPEND} filename newText \ttref{when} \Slist \Ob \t{KEEP!CRLF} \Oe  &
       If there are no \ttref{when} conditions or they are all true, the
       ASCII text newText is appended to the existing file filename (which
       is read from the game \ttref{BIFF}s or the \t{override} folder).
@@ -3060,7 +3059,7 @@ P Q R 3 <br>
     If \ttref{value} evaluates to true (non-zero), the \ttref{TP2 Action}s
     in the \t{THEN}-branch are executed. Otherwise, if an \t{ELSE}-branch
     is present, its commands are executed. Otherwise nothing happens. \\
-  or & \DEFINE{AT!EXIT} commandToRun &
+  or & \DEFINE{AT!EXIT} commandToRun \Ob \t{EXACT} \Oe &
     Whenever this \ttref{component} attemps to be installed, commandToRun
     is executed.  Variables (e.g., \t{\%LANGUAGE\%}) in the string
     commandToRun are replaced by their values. Note that the command is
@@ -3085,8 +3084,9 @@ P Q R 3 <br>
     WeiDU doesn't handle, like extracting WAVs from an MP3, make a batch
     file and run it from here. 
     \end{itemize}
-    In any case, slashes and backslashes will be converted appropriately
-    for the underlying operating system. The most common use is:
+    Slashes and backslashes will be converted appropriately for the
+    underlying operating system. If \verb+EXACT+ is specified, \verb+/+
+    and \verb+\+ will instead be preserved as they are. The most common usage is:
 \begin{verbatim}
 AT_INTERACTIVE_EXIT ~VIEW mymod\README.txt~
 \end{verbatim}
@@ -3101,24 +3101,24 @@ END ELSE BEGIN
 END
 \end{verbatim}
     \\
-  or & \DEFINE{AT!INTERACTIVE!EXIT} commandToRun &
+  or & \DEFINE{AT!INTERACTIVE!EXIT} commandToRun \Ob \t{EXACT} \Oe &
     As \ttref{AT!EXIT}, but the command is only executed if the user
     specifically asked for the \ttref{component} to be installed or
     upgraded. \\
-  or & \DEFINE{AT!UNINSTALL} commandToRun &
+  or & \DEFINE{AT!UNINSTALL} commandToRun \Ob \t{EXACT} \Oe &
     As \ttref{AT!EXIT}, but when this \ttref{component} is removed,
     commandToRun is executed.\\
-  or & \DEFINE{AT!INTERACTIVE!UNINSTALL} commandToRun &
+  or & \DEFINE{AT!INTERACTIVE!UNINSTALL} commandToRun \Ob \t{EXACT} \Oe &
     As \ttref{AT!EXIT}, but whenever the user specifically asks for this
     \ttref{component} to be removed, commandToRun is executed.
     Only the \t{\%LANGUAGE\%} variable is guaranteed to be
     replaced, so do not count on any others. \\
-  or & \DEFINE{AT!NOW} commandToRun &
+  or & \DEFINE{AT!NOW} commandToRun \Ob \t{EXACT} \Oe &
     As \ttref{AT!EXIT}, but commandToRun is executed when found, rather than
     at the end of the installation. Use with oggdec, tisunpack, wav2acm...
     but not with readmes (you'll create dozens of windows), nor with --make-biff
     (you'll crash the installation).\\
-  or & \DEFINE{AT!INTERACTIVE!NOW} commandToRun &
+  or & \DEFINE{AT!INTERACTIVE!NOW} commandToRun \Ob \t{EXACT} \Oe &
     As \ttref{AT!NOW}, but commandToRun is executed only if the installation is
     run interactively.\\
   or & \DEFINE{MAKE!BIFF} name-of-biff \t{BEGIN} \ttref{directory-file-regexp} \Slist \t{END} &
@@ -3263,6 +3263,22 @@ or & \DEFINE{OUTER!SPRINT} \ttref{variable} stringWithVars &
   This works somewhat like \t{sprintf()} but it not as cool. \\
 or & \DEFINE{OUTER!SET} \ttref{variable} \t{=} \ttref{value} &
   Update \ttref{variable} so that it is equal to \ttref{value}. \\
+or & \ttref{OUTER!SET} \ttref{variable} \t{+=} \ttref{value} &
+  Equivalent to \t{OUTER_SET variable = variable + value}. \\
+or & \ttref{OUTER!SET} \ttref{variable} \t{-=} \ttref{value} &
+  Equivalent to \t{OUTER_SET variable = variable - value}. \\
+or & \ttref{OUTER!SET} \ttref{variable} \t{*=} \ttref{value} &
+  Equivalent to \t{OUTER_SET variable = variable * value}. \\
+or & \ttref{OUTER!SET} \ttref{variable} \t{/=} \ttref{value} &
+  Equivalent to \t{OUTER_SET variable = variable / value}. \\
+or & \ttref{OUTER!SET} \ttref{variable} \t{\&=} \ttref{value} &
+  Equivalent to \t{OUTER_SET variable = variable BAND value}. \\
+or & \ttref{OUTER!SET} \ttref{variable} \t{|=} \ttref{value} &
+  Equivalent to \t{OUTER_SET variable = variable BOR value}. \\
+or & \ttref{OUTER!SET} \ttref{variable} \t{<<=} \ttref{value} &
+  Equivalent to \t{OUTER_SET variable = variable BLSL value}. \\
+or & \ttref{OUTER!SET} \ttref{variable} \t{>>=} \ttref{value} &
+  Equivalent to \t{OUTER_SET variable = variable BLSR value}. \\
 or & \DEFINE{OUTER!INNER!PATCH} buffString \t{BEGIN} \ttref{patch} \Slist \t{END} &
   Any WeiDU variables inside \t{\%}s within buffString are replaced by
   their values. All of the \ttref{patch}es given are evaluated as if the
@@ -3275,6 +3291,14 @@ or & \DEFINE{OUTER!INNER!PATCH!SAVE} savevar buffString \t{BEGIN} \ttref{patch} 
   savevar. \\
 or & \DEFINE{OUTER!PATCH!SAVE} savevar buffString \t{BEGIN} \ttref{patch} \Slist \t{END} &
   Equal to \ttref{OUTER!INNER!PATCH!SAVE}, if you feel that OUTER!INNER sounds wrong. \\
+or & \DEFINE{OUTER!WHILE} \ttref{value} \t{BEGIN} 
+  \ttref{TP2 Action} \Slist \t{END} & 
+  If \ttref{value} is non-zero, execute the given \ttref{TP2 Action} \Slist and
+  then repeat, re-evaluating the \ttref{value}. 
+  {\em Be very careful when using this command. } You can easily describe
+  an infinite loop. See the \ttref{WHILE} loop tutorial for more
+  information.
+  \\
 or & \DEFINE{OUTER!FOR} \t{(} \ttref{patch} \Slist \t{;}
                         \ttref{value} \t{;}
                         \ttref{patch} \Slist \t{)}
@@ -3403,7 +3427,7 @@ COMPILE ~.../mymod-inlined/myfile.baf~
 \\
 
 \DEFINE{directory-file-regexp} & & This is a directory path and a \ttref{regexp} string.
-It's used by \ttref{BIFF}, \ttref{ACTION!BASH!FOR} and \ttref{PATCH!BASH!FOR}
+It's used by \ttref{MAKE!BIFF}, \ttref{ACTION!BASH!FOR} and \ttref{PATCH!BASH!FOR}
 for listing patterns to be matched. Please note that
 the directory / filename distinction must be enforced. \\
 is & directory \ttref{regexp} & get a list of all files in directory that match \ttref{regexp}.
@@ -3619,18 +3643,17 @@ or & \DEFINE{WRITE!ASCII} \ttref{offset} ascString
   The ASCII ascString is written to the file starting at offset. 
   If you specify a \t{requiredSize} then exactly that many bytes are
   written (if ascString is smaller, it is padded with \t{NUL}s; if
-  ascString is larger, it is truncated). 
-  If you do not specify a requiredSize, the terminating \t{NUL} is not
-  written. \\
+  ascString is larger, it is truncated). If you do not specify a requiredSize,
+  the terminating \t{NUL} is not written. \\
 or & \DEFINE{WRITE!ASCII!TERMINATE} \ttref{offset} ascString &
   The ASCII ascString is written to the file starting at offset.
-  If you do not specify a requiredSize, the terminating \t{NUL} \em{is}
-  written. \\
+  The terminating \t{NUL} \emph{is} written. You may use 
+  \t{WRITE!ASCIIT} as a synonym. \\
 or & \DEFINE{WRITE!EVALUATED!ASCII} \ttref{offset} ascString
     \Ob \t{\#requiredSize} \Oe &
   The ASCII ascString is evaluated (so \t{\%variable\%} is replaced by its
   value) and written to the file starting at offset (as in
-  \ttref{WRITE!ASCII}. \\
+  \ttref{WRITE!ASCII}). You may use \t{WRITE!ASCIIE} as a synonym. \\
 or & \DEFINE{WRITE!FILE} \ttref{offset} filename &
   The entire contents of ``filename'' (which may contain variables) are
   loaded and copied over the current file starting at offset
@@ -3740,7 +3763,7 @@ or & \Ob \ttref{SET} \Oe \ttref{variable} \t{<<=} \ttref{value} &
 or & \Ob \ttref{SET} \Oe \ttref{variable} \t{>>=} \ttref{value} &
   Equivalent to \t{SET variable = variable BLSR value}. \\
 
-or & \DEFINE{WHILE} \ttref{value} \t{BEGIN} 
+or & \DEFSYN{WHILE} \ttref{value} \t{BEGIN} 
   \ttref{patch} \Slist \t{END} & 
   If \ttref{value} is non-zero, execute the given \ttref{patch} \Slist and
   then repeat, re-evaluating the \ttref{value}. 
@@ -3798,6 +3821,10 @@ or & \DEFINE{CLEAR!ARRAY} \ttref{String} &
     `Forgets' that the array \t{string} exists until its values are recalled.
     The actual variables' values are kept, the only effect is that \t{*PHP!EACH}
     will not consider old values.
+\\
+
+or & \DEFINE{PATCH!CLEAR!ARRAY} \ttref{String} &
+    A synonym of \ttref{CLEAR!ARRAY}.
 \\
 
 
@@ -3875,7 +3902,7 @@ d e f
 g h i
 4 4 4
 \end{verbatim} \\
-or & \DEFSYN{READLN} \ttref{variable} &
+or & \DEFINE{PATCH!READLN} \ttref{variable} &
   Waits for the user to provided an enter-terminated string and store it in
   variable. Said string will be stored and re-used at reinstall time. See the
   \ttref{READLN} tutorial. \\
@@ -4315,15 +4342,22 @@ contains the second \ttref{regexp}. Thus \t{"AR1005" STRING!CONTAINS!REGEXP
 "[w-z]"} evaluates to 1 (``mismatch''). \\
 
 or & \DEFINE{GAME!IS} \ttref{String} & Returns true if the IE game variant
-is one from the String, otherwise it returns false. String is a list of
-whitespace separated entries, chosen between (case doesn't matter)
+is one of the entries in String, otherwise it returns false. String is a list of
+whitespace-separated entries, chosen from (case doesn't matter)
 \verb+bg2=soa, tob, iwd2, pst, bg1, totsc, iwd=iwd1, how, tolm=totlm, tutu, tutu_totsc, bgt+.
-In the list, \verb+bg2=soa+ means that bg2 and soa are synonyms. Please note that
-the items in list are defined to be mutually exclusive (except tob will detect both plain tob
-and tob with bgt installed, for legacy purposes), so bg2 will detect a
-soa-only game, without either tob or tutu installed. As such, a mod which is
-useable with any flavor of bg2 and any flavor of tutu would contain
+In the list, \verb+bg2=soa+ means that \verb+bg2+ and \verb+soa+ are synonyms,
+and you can use whichever one you like. Please note that the items in the list are
+defined to be mutually exclusive (except \verb+tob+ will detect both plain ToB
+and ToB with BGT installed, for legacy purposes), so \verb+bg2+ will detect a
+SoA-only game, without either ToB or Tutu installed. As such, a mod which is
+useable with any flavor of BG2 and any flavor of Tutu would contain
 \verb+REQUIRE_PREDICATE GAME_IS ~bg2 tob tutu tutu_totsc~+ . \\
+
+or & \DEFINE{ENGINE!IS} \ttref{String} & Functions like \ttref{GAME!IS} 
+except \verb+bg2=soa+ will detect SoA-based Tutu games in addition to SoA games,
+and \verb+tob+ will detect ToB-based Tutu games in addition to ToB and BGT games.
+As such, a mod that requires Throne of Bhaal's engine enhancements could use
+\verb+REQUIRE_PREDICATE ENGINE_IS ~tob~+ . \\
 
 or & \DEFINE{IDS!OF!SYMBOL} (File \ttref{String}) &
 Will return the number associated with String in File.ids,
@@ -4502,7 +4536,6 @@ is & string & You may name the variable whatever you like, but stay
 away from the special characters used in \ttref{regexp}s. When you want to
 obtain the value of a variable, enclose it in \t{\%}s.
 
-\\
 
 Example: If a file contains the two binary integers 33 and 77, then after
 executing:
@@ -5317,7 +5350,7 @@ Finally, if \t{newEntry} is a string that contains any
 That's the end of this tutorial.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\ttref{WHILE} Loops (Last update: v189)}
+\subsection{\DEFINE{WHILE} Loops (Last update: v189)}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 This tutorial was thoughtfully provided by Idobek, and shamelessly edited
@@ -5356,22 +5389,22 @@ READ_LONG 0x64 "abilitiesoffset"
 READ_SHORT 0x68 "#abilities"
 \end{verbatim}
 So far, so good. Here's where the fun begins. We want to patch examine
-every ability in the item. We need to use a \ttref{WHILE} loop to patch the
+every ability in the item. We need to use a \t{WHILE} loop to patch the
 abilities one by one. We open the loop like so:
 \begin{verbatim}
 WHILE ("%#abilities%" > 0) BEGIN
 \end{verbatim}
-For the \ttref{WHILE} loop to progress and close we need to modify the
+For the \t{WHILE} loop to progress and close we need to modify the
 "\#abilities" variable. We use the \ttref{SET} command to do this:
 
 \begin{verbatim}
 SET "#abilities" = ("%#abilities%" - 1)
 END
 \end{verbatim}
-These lines are placed at the end of the \ttref{WHILE} loop. WeiDU will
+These lines are placed at the end of the \t{WHILE} loop. WeiDU will
 process the abilities from last to first and reduce the "\#abilities"
 variable by one each time. Once the "\#abilities" variable hits zero the
-\ttref{WHILE} loop will stop.
+\t{WHILE} loop will stop.
 
 OK, now we need to find out what type of ability we are looking at. Within
 an item an ability is 0x38 bytes, abilities also count from 0 within items
@@ -5444,14 +5477,14 @@ So what have we done? Let's list the steps involved:
 \item First off we copied all the item files ready for patching.
 \item Then we the read in the item category.
 \item We also read in the number of abilities and the file location of those abilities.
-\item We open a \ttref{WHILE} loop based upon the number of abilities.
-\item Within the \ttref{WHILE} loop, we read in the ability type.
+\item We open a \t{WHILE} loop based upon the number of abilities.
+\item Within the \t{WHILE} loop, we read in the ability type.
 \item Next we defined a new variable to indicate that we had not yet patched any melee type abilities.
 \item We opened  \ttref{PATCH!IF} statement.
 \item We patched melee abilities to do 2D6 damage.
 \item We closed this \ttref{PATCH!IF} loop.
 \item We repeated steps 6-9 to give the ranged abilities 1D12 damage.
-\item We closed our main \ttref{WHILE} loop by reducing the number of abilities by 1 and indicating that it should stop if the number of abilities reached 0.
+\item We closed our main \t{WHILE} loop by reducing the number of abilities by 1 and indicating that it should stop if the number of abilities reached 0.
 \item We used an \ttref{IF!EVAL} statement to ensure the patch is only applied to axes.
 \end{enumerate}
 
@@ -6610,7 +6643,7 @@ MODDER setup_tra fail area_variables none missing_extern warn
 \end{verbatim}
 
 Each option can be set to either NONE, WARN or FAIL with the above syntax,
-with the obvious meaning. If none is choosen, WARN is assumed. WARN may generate false positives.
+with the obvious meaning. If none are chosen, WARN is assumed. WARN may generate false positives.
 In this case, "INSTALLED WITH WARNINGS" is not displayed.
 
 Here the list of feedback options that you can configure, along with use cases when you
@@ -6646,7 +6679,7 @@ near the beta status).
 
 As you can see, all of these are catching either really stupid coding practices
 (yes, biffing ARE files is really stupid) or are avoidable with minor code
-restructuration, but with some people this kind of things is enough to start flame wars,
+restructuring, but with some people these kind of things are enough to start flame wars,
 so here's a way to choose what things I should let through. *shrugs*
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -7478,7 +7511,12 @@ Currently undocumented:
 \item {\tt REPLACE!BCS!BLOCK!REGEXP}.
 \item Fred's BCS diff stuff.
 \item {\tt --trbify}, \t{TRB} files.
-\item {\tt ENGINE!IS}.
+\item Associative Arrays.
+\item {\tt REMOVE!2DA!ROW}.
+\item {\tt GET!FILE!ARRAY}.
+\item {\tt GET!DIRECTORY!ARRAY}.
+\item {\tt EDIT!SAV!FILE}.
+\item {\tt EXTEND!MOS}.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
