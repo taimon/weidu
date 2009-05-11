@@ -1,4 +1,5 @@
 Version 211:
+  * In macro-world, ADD_SPELL_CFEFFECT added.
   * Ton of readme fixes (Taimon, vit-mg, Mike1072).
   * {READ,GET}_STRREF_{F,S,FS} for getting the female/sound string references.
   * REPLACE_ACTION_TEXT, REPLACE_TRANS_{ACTION,TRIGGER} are case insensitive.
@@ -13,6 +14,7 @@ Version 211:
   * ADD_STORE_ITEM blah AT 5 added for devSin.
   * Correctly evaluate variables in strings like ~50% %var%~.
   * EXTEND_TOP/BOTTOM ~scripts/myfile.bs~ ~myfile.baf~ now works.
+  * Added ACTION_CLEAR_ARRAY.
 
 Version 210:
   * LAUNCH_*_FUNCTION can define variables local to the function.
