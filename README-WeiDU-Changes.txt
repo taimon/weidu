@@ -22,6 +22,7 @@ Version 211:
   * If there is no chitin.key in ./ (and --game and friends is not specified),
     try looking for a game installation in ../, ../../, etc (up to four levels
     of depth).
+  * Qwinn's ADD_AREA_REGION_TRIGGER macro added.
   * STRING_SET_EVALUATE also accepts strings as first argument
   * WRITE_EVALUATED_ASCII now also allows arrays as second argument
 
