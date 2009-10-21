@@ -6,7 +6,11 @@ Version 212:
     a .D file.
   * Fix STRING_SET_EVALUATE when the given pe is an unescaped string.
   * Fix REPLACE_EVALUATE to avoid loops.
-
+  * SAY offset #-1 does work. Don't you love 31 bit integers?
+  * Can STRING_SET recently added strings.
+  * EVALUATE_BUFFER -> EVAL.
+  * Compiling D files is now faster (fixed regression).
+  * GAME_IS: added CA, check are and not mve files.
 
 Version 211:
   * In macro-world, ADD_SPELL_CFEFFECT added.
